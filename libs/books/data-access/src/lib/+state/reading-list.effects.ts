@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, concatMap, exhaustMap, map } from 'rxjs/operators';
-import { ReadingListItem } from '@tmo/shared/models';
+import { Book } from '@tmo/shared/models';
 import * as ReadingListActions from './reading-list.actions';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class ReadingListEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(ReadingListActions.init),
       exhaustMap(() =>
-        this.http.get<ReadingListItem[]>('/api/reading-list').pipe(
+        this.http.get<Book[]>('/api/reading-list').pipe(
           map((data) =>
             ReadingListActions.loadReadingListSuccess({ list: data })
           ),
@@ -41,13 +41,13 @@ export class ReadingListEffects implements OnInitEffects {
   removeBook$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ReadingListActions.removeFromReadingList),
-      concatMap(({ item }) =>
-        this.http.delete(`/api/reading-list/${item.bookId}`).pipe(
+      concatMap(({ book }) =>
+        this.http.delete(`/api/reading-list/${book.id}`).pipe(
           map(() =>
-            ReadingListActions.confirmedRemoveFromReadingList({ item })
+            ReadingListActions.confirmedRemoveFromReadingList({ book })
           ),
           catchError(() =>
-            of(ReadingListActions.failedRemoveFromReadingList({ item }))
+            of(ReadingListActions.failedRemoveFromReadingList({ book }))
           )
         )
       )

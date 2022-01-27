@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { StorageService } from '@tmo/shared/storage';
-import { Book, ReadingListItem } from '@tmo/shared/models';
+import { Book } from '@tmo/shared/models';
 
 const KEY = '[okreads API] Reading List';
 
 @Injectable()
 export class ReadingListService {
-  private readonly storage = new StorageService<ReadingListItem[]>(KEY, []);
+  private readonly storage = new StorageService<Book[]>(KEY, []);
 
-  async getList(): Promise<ReadingListItem[]> {
+  async getList(): Promise<Book[]> {
     return this.storage.read();
   }
 
@@ -16,7 +16,7 @@ export class ReadingListService {
     this.storage.update(list => {
       const { id, ...rest } = b;
       list.push({
-        bookId: id,
+        id,
         ...rest
       });
       return list;
@@ -25,7 +25,7 @@ export class ReadingListService {
 
   async removeBook(id: string): Promise<void> {
     this.storage.update(list => {
-      return list.filter(x => x.bookId !== id);
+      return list.filter(x => x.id !== id);
     });
   }
 }

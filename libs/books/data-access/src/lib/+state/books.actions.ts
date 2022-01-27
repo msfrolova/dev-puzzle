@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 import { Book } from '@tmo/shared/models';
 
@@ -13,7 +14,7 @@ export const searchBooksSuccess = createAction(
 
 export const searchBooksFailure = createAction(
   '[Book Search API] Search failure',
-  props<{ error: any }>()
+  props<{ error: HttpErrorResponse }>()
 );
 
 export const clearSearch = createAction('[Books Search Bar] Clear Search');

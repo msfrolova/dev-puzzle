@@ -4,7 +4,7 @@ import {
   initialState as booksInitialState
 } from './books.reducer';
 import * as ToReadSelectors from './reading-list.selectors';
-import { createBook, createReadingListItem } from '@tmo/shared/testing';
+import { createBook } from '@tmo/shared/testing';
 
 describe('ReadingList Selectors', () => {
   let state;
@@ -20,11 +20,7 @@ describe('ReadingList Selectors', () => {
         }
       ),
       readingList: readingListAdapter.addMany(
-        [
-          createReadingListItem('A'),
-          createReadingListItem('B'),
-          createReadingListItem('C')
-        ],
+        [createBook('A'), createBook('B'), createBook('C')],
         {
           ...initialState,
           error: 'Unknown error',
@@ -39,7 +35,7 @@ describe('ReadingList Selectors', () => {
       const results = ToReadSelectors.getReadingList(state);
 
       expect(results.length).toBe(3);
-      expect(results.map(x => x.bookId)).toEqual(['A', 'B', 'C']);
+      expect(results.map(x => x.id)).toEqual(['A', 'B', 'C']);
     });
 
     it("getTotalUnread() should return the current 'loaded' status", () => {

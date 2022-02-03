@@ -49,6 +49,29 @@ describe('Books Reducer', () => {
 
       expect(result.ids).toEqual(['A', 'B', 'C']);
     });
+
+    it('confirmedMarkBookAsRead: should update state with marked as read book', () => {
+      const markedAsReadBook = {
+        ...createBook('A'),
+        finished: true,
+        finishedDate: 'today'
+      };
+      const action = ReadingListActions.confirmedMarkBookAsRead({
+        book: markedAsReadBook
+      });
+
+      state = readingListAdapter.updateOne(
+        { id: markedAsReadBook.id, changes: markedAsReadBook },
+        state
+      );
+
+      const result: State = reducer(state, action);
+
+      expect(result.entities).toEqual({
+        A: { ...markedAsReadBook },
+        B: { ...createBook('B') }
+      });
+    });
   });
 
   describe('unknown action', () => {

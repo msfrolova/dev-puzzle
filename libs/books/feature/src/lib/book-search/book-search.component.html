@@ -33,13 +33,18 @@
           <p>{{ b.description }}</p>
           <div>
             <button
+              data-testing="add-to-list-button"
               [attr.aria-label]="'Add ' + b.title + ' to reading list'"
               mat-flat-button
               color="primary"
               (click)="addBookToReadingList(b)"
               [disabled]="(readingListBookIds$ | async).includes(b.id)"
             >
-              Want to Read
+              {{
+                (finishedBooksIds$ | async).includes(b.id)
+                  ? 'Finished'
+                  : 'Want to read'
+              }}
             </button>
           </div>
         </div>

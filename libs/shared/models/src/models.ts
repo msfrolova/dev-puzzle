@@ -6,4 +6,6 @@ export interface Book {
   publisher?: string;
   publishedDate?: string;
   coverUrl?: string;
+  finished?: boolean;
+  finishedDate?: string;
 }

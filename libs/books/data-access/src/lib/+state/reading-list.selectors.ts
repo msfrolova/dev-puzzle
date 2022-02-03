@@ -31,3 +31,7 @@ export const getReadingListBookIds = createSelector(
 );
 
 export const getTotalUnread = createSelector(getReadingListState, selectTotal);
+
+export const getFinishedBookIds = createSelector(getReadingList, books =>
+  books.filter(book => book.finished).map(book => book.id)
+);

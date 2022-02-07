@@ -46,11 +46,15 @@ const readingListReducer = createReducer(
       error: action.error
     };
   }),
-  on(ReadingListActions.addToReadingList, (state, action) =>
-    readingListAdapter.addOne(action.book, state)
+  on(
+    ReadingListActions.addToReadingList,
+    ReadingListActions.undoRemoveFromReadingList,
+    (state, action) => readingListAdapter.addOne(action.book, state)
   ),
-  on(ReadingListActions.removeFromReadingList, (state, action) =>
-    readingListAdapter.removeOne(action.book.id, state)
+  on(
+    ReadingListActions.removeFromReadingList,
+    ReadingListActions.undoAddToReadingList,
+    (state, action) => readingListAdapter.removeOne(action.book.id, state)
   )
 );
 

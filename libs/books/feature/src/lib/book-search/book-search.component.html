@@ -38,6 +38,7 @@
               color="primary"
               (click)="addBookToReadingList(b)"
               [disabled]="(readingListBookIds$ | async).includes(b.id)"
+              data-testing="add-to-list-button"
             >
               Want to Read
             </button>

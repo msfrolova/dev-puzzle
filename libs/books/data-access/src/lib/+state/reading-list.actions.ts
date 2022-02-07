@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { Book, ReadingListItem } from '@tmo/shared/models';
+import { Book } from '@tmo/shared/models';
 
 export const init = createAction('[Reading List] Initialize');
 
 export const loadReadingListSuccess = createAction(
   '[Reading List API] Load list success',
-  props<{ list: ReadingListItem[] }>()
+  props<{ list: Book[] }>()
 );
 export const loadReadingListError = createAction(
   '[Reading List API] Load list error',
@@ -29,15 +29,15 @@ export const confirmedAddToReadingList = createAction(
 
 export const removeFromReadingList = createAction(
   '[Books Search Results] Remove from list',
-  props<{ item: ReadingListItem }>()
+  props<{ book: Book }>()
 );
 
 export const failedRemoveFromReadingList = createAction(
   '[Reading List API] Failed remove from list',
-  props<{ item: ReadingListItem }>()
+  props<{ book: Book }>()
 );
 
 export const confirmedRemoveFromReadingList = createAction(
   '[Reading List API] Confirmed remove from list',
-  props<{ item: ReadingListItem }>()
+  props<{ book: Book }>()
 );

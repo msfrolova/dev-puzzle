@@ -2,28 +2,27 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as ReadingListActions from './reading-list.actions';
-import { ReadingListItem } from '@tmo/shared/models';
+import { Book } from '@tmo/shared/models';
 
 export const READING_LIST_FEATURE_KEY = 'readingList';
 
-export interface State extends EntityState<ReadingListItem> {
+export interface State extends EntityState<Book> {
   loaded: boolean;
-  error: null | string;
+  error?: null | string;
 }
 
 export interface ReadingListPartialState {
   readonly [READING_LIST_FEATURE_KEY]: State;
 }
 
-export const readingListAdapter: EntityAdapter<ReadingListItem> = createEntityAdapter<
-  ReadingListItem
+export const readingListAdapter: EntityAdapter<Book> = createEntityAdapter<
+  Book
 >({
-  selectId: item => item.bookId
+  selectId: item => item.id
 });
 
 export const initialState: State = readingListAdapter.getInitialState({
-  loaded: false,
-  error: null
+  loaded: false
 });
 
 const readingListReducer = createReducer(
@@ -48,10 +47,10 @@ const readingListReducer = createReducer(
     };
   }),
   on(ReadingListActions.addToReadingList, (state, action) =>
-    readingListAdapter.addOne({ bookId: action.book.id, ...action.book }, state)
+    readingListAdapter.addOne(action.book, state)
   ),
   on(ReadingListActions.removeFromReadingList, (state, action) =>
-    readingListAdapter.removeOne(action.item.bookId, state)
+    readingListAdapter.removeOne(action.book.id, state)
   )
 );
 

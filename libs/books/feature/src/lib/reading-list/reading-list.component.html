@@ -1,8 +1,10 @@
 <ng-container *ngIf="(readingList$ | async).length > 0; else empty">
-  <div class="reading-list-item" *ngFor="let b of readingList$ | async">
-    <div>
-      <img class="reading-list-item--cover" [src]="b.coverUrl" />
-    </div>
+  <div
+    class="reading-list-item"
+    data-testing="reading-list-item"
+    *ngFor="let b of readingList$ | async"
+  >
+    <img class="reading-list-item--cover" [src]="b.coverUrl" />
     <div class="reading-list-item--details">
       <strong class="reading-list-item--details--title">{{ b.title }}</strong>
       <div class="reading-list-item--details--author">
@@ -11,8 +13,30 @@
     </div>
     <div>
       <button
+        data-testing="mark-as-read-button"
+        [disabled]="b.finished"
+        mat-icon-button
+        color="primary"
+        [attr.aria-label]="'Mark ' + b.title + ' as read'"
+        (click)="markAsRead(b)"
+      >
+        <mat-icon *ngIf="!b.finished" matTooltip="Mark as read">
+          add_circle
+        </mat-icon>
+
+        <mat-icon
+          data-testing="finished-book-icon"
+          *ngIf="b.finished"
+          [matTooltip]="b.finishedDate | date: 'M/dd/yyyy'"
+        >
+          done
+        </mat-icon>
+      </button>
+      <button
+        data-testing="remove-button"
         mat-icon-button
         color="warn"
+        matTooltip="Remove book"
         [attr.aria-label]="'Remove ' + b.title + ' from reading list'"
         (click)="removeFromReadingList(b)"
       >

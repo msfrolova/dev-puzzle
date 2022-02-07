@@ -28,4 +28,12 @@ export class ReadingListService {
       return list.filter(x => x.id !== id);
     });
   }
+
+  async markBookAsRead(b: Book): Promise<void> {
+    this.removeBook(b.id);
+    this.storage.update(list => {
+      list.push(b);
+      return list;
+    });
+  }
 }

@@ -4,6 +4,7 @@ import {
   addToReadingList,
   clearSearch,
   getBooks,
+  getFinishedBookIds,
   getReadingListBookIds,
   searchBooks
 } from '@tmo/books/data-access';
@@ -19,6 +20,7 @@ import { Observable } from 'rxjs';
 export class BookSearchComponent {
   books$: Observable<Book[]>;
   readingListBookIds$: Observable<string[] | number[]>;
+  finishedBooksIds$: Observable<string[]>;
 
   searchForm = this.fb.group({
     term: ''
@@ -27,6 +29,7 @@ export class BookSearchComponent {
   constructor(private readonly store: Store, private readonly fb: FormBuilder) {
     this.books$ = this.store.select(getBooks);
     this.readingListBookIds$ = this.store.select(getReadingListBookIds);
+    this.finishedBooksIds$ = this.store.select(getFinishedBookIds);
   }
 
   get searchTerm(): string {

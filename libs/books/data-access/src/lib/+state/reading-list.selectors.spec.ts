@@ -20,7 +20,11 @@ describe('ReadingList Selectors', () => {
         }
       ),
       readingList: readingListAdapter.addMany(
-        [createBook('A'), createBook('B'), createBook('C')],
+        [
+          createBook('A'),
+          createBook('B'),
+          { ...createBook('C'), finished: true, finishedDate: 'today' }
+        ],
         {
           ...initialState,
           error: 'Unknown error',
@@ -42,6 +46,14 @@ describe('ReadingList Selectors', () => {
       const result = ToReadSelectors.getTotalUnread(state);
 
       expect(result).toBe(3);
+    });
+  });
+
+  describe('getFinishedBookIds', () => {
+    it('should return ids of finished books', () => {
+      const result = ToReadSelectors.getFinishedBookIds(state);
+
+      expect(result).toEqual(['C']);
     });
   });
 });
